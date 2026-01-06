@@ -10,13 +10,13 @@ CERTS=$BASE/certs
 
 mkdir -p "$ROOT" "$ISSUING" "$CERTS"
 
-echo "🔐 Iniciando PKI local..."
+echo " Iniciando PKI local..."
 
 ####################################
 # ROOT CA
 ####################################
 if [ ! -f "$ROOT/ca.crt" ]; then
-  echo "▶ Creando Root CA"
+  echo " Creando Root CA"
   openssl genrsa -out "$ROOT/ca.key" 4096
   openssl req -x509 -new -nodes \
     -key "$ROOT/ca.key" \
@@ -31,7 +31,7 @@ fi
 # ISSUING CA
 ####################################
 if [ ! -f "$ISSUING/issuing.crt" ]; then
-  echo "▶ Creando Issuing CA"
+  echo " Creando Issuing CA"
   openssl genrsa -out "$ISSUING/issuing.key" 4096
 
   openssl req -new \
@@ -55,7 +55,7 @@ EOF
     -days 1825 -sha256 \
     -extfile "$ISSUING/ext.cnf"
 else
-  echo "✔ Issuing CA existente"
+  echo "Issuing CA existente"
 fi
 
 ####################################
@@ -69,7 +69,7 @@ do
   mkdir -p "$DIR"
 
   if [ ! -f "$DIR/fullchain.crt" ]; then
-    echo "▶ Generando *.${TLD}"
+    echo " Generando *.${TLD}"
 
     openssl genrsa -out "$DIR/privkey.key" 2048
 
@@ -105,4 +105,4 @@ EOF
   fi
 done
 
-echo "✅ PKI local lista"
+echo "PKI local lista"
