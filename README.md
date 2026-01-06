@@ -243,15 +243,15 @@ wildcard-test/*
 
 ##  Paso 8 — Crear un Proxy Host
 
-Ejemplo: `sgcec.dev`
+Ejemplo: `prueba.dev`
 
 ### DETAILS
 
 | Campo            | Valor       |
 | ---------------- | ----------- |
-| Domain           | `sgcec.dev` |
+| Domain           | `prueba.dev` |
 | Scheme           | `http`      |
-| Forward Hostname | `sgcec_app` |
+| Forward Hostname | `prueba_app` |
 | Forward Port     | `80`        |
 | Websockets       | ✅           |
 
@@ -271,8 +271,8 @@ Ejemplo: `sgcec.dev`
 ```yaml
 services:
   app:
-    image: sgcec-app
-    container_name: sgcec_app
+    image: prueba-app
+    container_name: prueba_app
     networks:
       - proxy-net
 
@@ -288,7 +288,7 @@ networks:
 ##  Verificación
 
 ```bash
-ping sgcec.dev
+ping prueba.dev
 ```
 
 Debe responder:
@@ -300,7 +300,7 @@ Debe responder:
 En navegador:
 
 ```
-https://sgcec.dev
+https://prueba.dev
 ```
 
 ---
