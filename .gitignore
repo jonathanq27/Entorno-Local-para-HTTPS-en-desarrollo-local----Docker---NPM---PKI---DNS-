@@ -1,0 +1,17 @@
+
+nginx-proxy-manager/data/**
+nginx-proxy-manager/letsencrypt/**
+
+
+
+
+pki/certs/**
+pki/issuing/**
+pki/root/**
+
+
+!pki/certs/.gitkeep
+!pki/issuing/.gitkeep
+!pki/root/.gitkeep
+
+

@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  pki:
+    image: alpine:3.20
+    container_name: local-pki
+    volumes:
+      - ./pki:/pki
+    entrypoint: ["/bin/sh", "/pki/generate.sh"]
+    restart: "no"
+
+  dnsmasq:
+    image: andyshinn/dnsmasq:latest
+    container_name: local-dns
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    volumes:
+      - ./dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf:ro
+    restart: unless-stopped
+
+  nginx-proxy-manager:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: npm
+    depends_on:
+      - pki
+    ports:
+      - "80:80"
+      - "443:443"
+      - "81:81"
+    volumes:
+      # Datos internos de NPM
+      - ./nginx-proxy-manager/data:/data
+
+      # OBLIGATORIO aunque no uses Let's Encrypt
+      - ./nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+
+      # Certificados locales (solo lectura)
+      - ./pki/certs:/etc/nginx/certs:ro
+    environment:
+      DISABLE_IPV6: "true"
+      DISABLE_LETSENCRYPT: "true"
+    restart: unless-stopped
