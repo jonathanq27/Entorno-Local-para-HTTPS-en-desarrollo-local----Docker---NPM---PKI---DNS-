@@ -8,6 +8,8 @@ services:
       - ./pki:/pki
     entrypoint: ["/bin/sh", "/pki/generate.sh"]
     restart: "no"
+    networks:
+      - proxy-net
 
   dnsmasq:
     image: andyshinn/dnsmasq:latest
@@ -20,6 +22,8 @@ services:
     volumes:
       - ./dnsmasq/dnsmasq.conf:/etc/dnsmasq.conf:ro
     restart: unless-stopped
+    networks:
+      - proxy-net
 
   nginx-proxy-manager:
     image: jc21/nginx-proxy-manager:latest
@@ -43,3 +47,8 @@ services:
       DISABLE_IPV6: "true"
       DISABLE_LETSENCRYPT: "true"
     restart: unless-stopped
+    networks:
+      - proxy-net
+networks:
+  proxy-net:
+    external: true
